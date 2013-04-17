@@ -191,9 +191,11 @@ Unless required by applicable law or agreed to in writing, software distributed 
     // Add buttons for line errors
     for (SMLSyntaxError* err in self.syntaxErrors)
     {
-        if (err.line >= (int)self.lineNumberRange.location && err.line < (int)(self.lineNumberRange.location + self.lineNumberRange.length))
+        if (err.line > (int)(self.lineNumberRange.location) && err.line < (int)(self.lineNumberRange.location + self.lineNumberRange.length))
         {
-            NSButton* warningButton = [[[NSButton alloc] initWithFrame:NSMakeRect(3, err.line * 13 - (self.lineNumberRange.location * 13) - 15, 16, 16)] autorelease];
+            int yPosition = (int)(err.line * 13 - (self.lineNumberRange.location * 13) - 15);
+            
+            NSButton* warningButton = [[[NSButton alloc] initWithFrame:NSMakeRect(3, yPosition, 16, 16)] autorelease];
             
             [warningButton setButtonType:NSMomentaryChangeButton];
             [warningButton setBezelStyle:NSRegularSquareBezelStyle];
