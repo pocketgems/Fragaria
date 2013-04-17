@@ -28,5 +28,8 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 @property (nonatomic,copy) NSString* fileName;
 @property (nonatomic,retain) NSArray* breakpointLines;
+@property (nonatomic,retain) NSArray* syntaxErrors;
+@property (nonatomic,assign) NSRange lineNumberRange;
+- (void) updateSyntaxErrors;
 
 @end

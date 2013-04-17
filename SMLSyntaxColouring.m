@@ -1077,25 +1077,10 @@ thirdLayoutManager, fourthLayoutManager, undoManager;
 
 - (void) highlightErrors
 {
-    SMLTextView* textView = [document valueForKey:@"firstTextView"];
     NSString* text = [self completeString];
     
     // Clear all highlights
     [firstLayoutManager removeTemporaryAttribute:NSBackgroundColorAttributeName forCharacterRange:NSMakeRange(0, text.length)];
-    
-    // Clear all buttons
-    NSMutableArray* buttons = [NSMutableArray array];
-    for (NSView* subview in [textView subviews])
-    {
-        if ([subview isKindOfClass:[NSButton class]])
-        {
-            [buttons addObject:subview];
-        }
-    }
-    for (NSButton* button in buttons)
-    {
-        [button removeFromSuperview];
-    }
     
     if (!syntaxErrors) return;
     
@@ -1122,26 +1107,6 @@ thirdLayoutManager, fourthLayoutManager, undoManager;
             [firstLayoutManager addTemporaryAttribute:NSBackgroundColorAttributeName value:[NSColor colorWithCalibratedRed:1 green:1 blue:0.7 alpha:1] forCharacterRange:lineRange];
             
             [firstLayoutManager addTemporaryAttribute:NSToolTipAttributeName value:err.description forCharacterRange:lineRange];
-            
-            NSInteger glyphIndex = [firstLayoutManager glyphIndexForCharacterAtIndex:lineRange.location];
-            
-            NSRect linePos = [firstLayoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1) inTextContainer:[textView textContainer]];
-            
-            // Add button
-            float scrollOffset = textView.superview.bounds.origin.x - 40; // Not sure where the 40 comes from...
-            
-            NSButton* warningButton = [[[NSButton alloc] initWithFrame:NSMakeRect(textView.superview.frame.size.width - 32 + scrollOffset, linePos.origin.y-2, 16, 16)] autorelease];
-            
-            [warningButton setButtonType:NSMomentaryChangeButton];
-            [warningButton setBezelStyle:NSRegularSquareBezelStyle];
-            [warningButton setBordered:NO];
-            [warningButton setImagePosition:NSImageOnly];
-            [warningButton setImage:[MGSFragaria imageNamed:@"editor-warning.png"]];
-            [warningButton setTag:err.line];
-            [warningButton setTarget:self];
-            [warningButton setAction:@selector(pressedWarningBtn:)];
-            
-            [textView addSubview:warningButton];
         }
     }
 }
@@ -1149,25 +1114,6 @@ thirdLayoutManager, fourthLayoutManager, undoManager;
 - (CGFloat) widthOfString:(NSString *)string withFont:(NSFont *)font {
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
     return [[[[NSAttributedString alloc] initWithString:string attributes:attributes] autorelease] size].width;
-}
-
-- (void) pressedWarningBtn:(id) sender
-{
-    int line = (int)[sender tag];
-    
-    // Fetch errors to display
-    NSMutableArray* errorsOnLine = [NSMutableArray array];
-    for (SMLSyntaxError* err in syntaxErrors)
-    {
-        if (err.line == line)
-        {
-            [errorsOnLine addObject:err.description];
-        }
-    }
-    
-    if (errorsOnLine.count == 0) return;
-    
-    [SMLErrorPopOver showErrorDescriptions:errorsOnLine relativeToView:sender];
 }
 
 #pragma mark -

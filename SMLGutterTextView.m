@@ -26,6 +26,8 @@ Unless required by applicable law or agreed to in writing, software distributed 
 #import "MGSFragaria.h"
 #import "MGSBreakpointDelegate.h"
 #import "SMLLineNumbers.h"
+#import "SMLSyntaxError.h"
+#import "SMLErrorPopOver.h"
 
 @implementation SMLGutterTextView
 
@@ -170,6 +172,62 @@ Unless required by applicable law or agreed to in writing, software distributed 
     [self setNeedsDisplay:YES];
 }
 
+- (void) updateSyntaxErrors
+{
+    // Clear all buttons
+    NSMutableArray* buttons = [NSMutableArray array];
+    for (NSView* subview in [self subviews])
+    {
+        if ([subview isKindOfClass:[NSButton class]])
+        {
+            [buttons addObject:subview];
+        }
+    }
+    for (NSButton* button in buttons)
+    {
+        [button removeFromSuperview];
+    }
+    
+    // Add buttons for line errors
+    for (SMLSyntaxError* err in self.syntaxErrors)
+    {
+        if (err.line >= (int)self.lineNumberRange.location && err.line < (int)(self.lineNumberRange.location + self.lineNumberRange.length))
+        {
+            NSButton* warningButton = [[[NSButton alloc] initWithFrame:NSMakeRect(3, err.line * 13 - (self.lineNumberRange.location * 13) - 15, 16, 16)] autorelease];
+            
+            [warningButton setButtonType:NSMomentaryChangeButton];
+            [warningButton setBezelStyle:NSRegularSquareBezelStyle];
+            [warningButton setBordered:NO];
+            [warningButton setImagePosition:NSImageOnly];
+            [warningButton setImage:[MGSFragaria imageNamed:@"editor-warning.png"]];
+            [warningButton setTag:err.line];
+            [warningButton setTarget:self];
+            [warningButton setAction:@selector(pressedWarningBtn:)];
+            
+            [self addSubview:warningButton];
+        }
+    }
+}
+
+- (void) pressedWarningBtn:(id) sender
+{
+    int line = (int)[sender tag];
+    
+    // Fetch errors to display
+    NSMutableArray* errorsOnLine = [NSMutableArray array];
+    for (SMLSyntaxError* err in self.syntaxErrors)
+    {
+        if (err.line == line)
+        {
+            [errorsOnLine addObject:err.description];
+        }
+    }
+    
+    if (errorsOnLine.count == 0) return;
+    
+    [SMLErrorPopOver showErrorDescriptions:errorsOnLine relativeToView:sender];
+}
+
 /*
 - (void)drawViewBackgroundInRect:(NSRect)rect
 {
@@ -215,6 +273,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
     [imgBreakpoint2 release];
     self.fileName = NULL;
     self.breakpointLines = NULL;
+    self.syntaxErrors = NULL;
     [super dealloc];
 }
 

@@ -195,6 +195,8 @@ Unless required by applicable law or agreed to in writing, software distributed 
 	for (idx = 0, lineNumber = 0; idx < (NSInteger)visibleRange.location; lineNumber++) {
 		idx = NSMaxRange([searchString lineRangeForRange:NSMakeRange(idx, 0)]);
 	}
+    
+    NSInteger startLineNumber = lineNumber;
 	
 	indexNonWrap = [searchString lineRangeForRange:NSMakeRange(idx, 0)].location;
 	maxRangeVisibleRange = NSMaxRange([textString lineRangeForRange:NSMakeRange(NSMaxRange(visibleRange), 0)]); // Set it to just after the last glyph on the last visible line 
@@ -238,6 +240,8 @@ Unless required by applicable law or agreed to in writing, software distributed 
 			break;
 		}
 	}
+    
+    NSInteger endLineNumber = lineNumber;
 	
 	if (checkWidth == YES) {
 		widthOfStringInGutter = [lineNumbersString sizeWithAttributes:attributes].width;
@@ -262,6 +266,8 @@ Unless required by applicable law or agreed to in writing, software distributed 
 	
 	[[gutterScrollView documentView] setString:lineNumbersString];
     [[gutterScrollView documentView] setBreakpointLines:textLineBreakpoints];
+    [[gutterScrollView documentView] setLineNumberRange:NSMakeRange(startLineNumber, endLineNumber-startLineNumber)];
+    [[gutterScrollView documentView] updateSyntaxErrors];
 	
 #warning Draw on top of string here
     

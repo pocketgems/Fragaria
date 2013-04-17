@@ -35,7 +35,7 @@
     {
         NSTextField *textField;
         
-        NSFont* font = [NSFont systemFontOfSize:10];
+        NSFont* font = [NSFont fontWithName:@"Menlo" size:10];
         
         int width = [self widthOfString:err withFont:font];
         if (width > maxWidth) maxWidth = width;
