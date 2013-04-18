@@ -735,12 +735,21 @@ thirdLayoutManager, fourthLayoutManager, undoManager;
                 id colour = NULL;
                 
                 NSString* firstChar = [variableName substringWithRange:NSMakeRange(0, 1)];
+                NSString* secondChar = NULL;
+                if (variableName.length > 1)
+                {
+                    secondChar = [variableName substringWithRange:NSMakeRange(1, 1)];
+                }
                 
                 if ([keywords containsObject:variableName])
                 {
                     colour = keywordsColour;
                 }
                 if ([[variableName uppercaseString] isEqualToString:variableName])
+                {
+                    colour = constantsColour;
+                }
+                else if (secondChar && [firstChar isEqualToString:@"k"] && [[secondChar uppercaseString] isEqualToString:secondChar])
                 {
                     colour = constantsColour;
                 }
