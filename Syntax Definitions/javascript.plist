@@ -60,6 +60,7 @@
 		<string>switch</string>
 		<string>this</string>
 		<string>typeof</string>
+		<string>prototype</string>
 		<string>var</string>
 		<string>void</string>
 		<string>while</string>
