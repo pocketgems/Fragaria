@@ -51,6 +51,9 @@ Unless required by applicable law or agreed to in writing, software distributed 
         imgBreakpoint2 = [MGSFragaria imageNamed:@"editor-breakpoint-2.png"];
         [imgBreakpoint2 setFlipped:YES];
         [imgBreakpoint2 retain];
+        imgStopmarker = [MGSFragaria imageNamed:@"editor-stopmarker.png"];
+        [imgStopmarker setFlipped:YES];
+        [imgStopmarker retain];
 
 		[self setContinuousSpellCheckingEnabled:NO];
 		[self setAllowsUndo:NO];
@@ -124,6 +127,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 {
 	[super drawRect:rect];
 	
+    // Draw dotted line
 	NSRect bounds = [self bounds]; 
 	if ([self needsToDrawRect:NSMakeRect(bounds.size.width - 1, 0, 1, bounds.size.height)] == YES) {
 		[[NSColor lightGrayColor] set];
@@ -135,13 +139,42 @@ Unless required by applicable law or agreed to in writing, software distributed 
 		[dottedLine stroke];
 	}
     
+    // Draw breakpoints
     if (self.breakpointLines)
     {
         for (NSNumber* lineNumber in self.breakpointLines)
         {
             int line = [lineNumber intValue];
-            NSDrawThreePartImage(NSMakeRect(2, line * 13 - 12, bounds.size.width -4, 12), imgBreakpoint0, imgBreakpoint1, imgBreakpoint2, NO, NSCompositeSourceOver, 1, NO);
+            int yPos = line * 13 - 12;
+            
+            NSDrawThreePartImage(NSMakeRect(2, yPos, bounds.size.width -4, 12), imgBreakpoint0, imgBreakpoint1, imgBreakpoint2, NO, NSCompositeSourceOver, 1, NO);
+            
+            NSString* numberString = [NSString stringWithFormat:@"%d", (line + (int)self.lineNumberRange.location)];
+            
+            NSMutableParagraphStyle* paragraph = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+            [paragraph setAlignment:NSRightTextAlignment];
+            
+            NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSFont fontWithName:@"Menlo" size:9],
+                                        NSFontAttributeName,
+                                        [NSColor colorWithCalibratedRed:0.67f green:0.05f blue:0.57f alpha:1.0f],
+                                        NSForegroundColorAttributeName,
+                                        paragraph,
+                                        NSParagraphStyleAttributeName,
+                                        nil];
+            
+            [numberString drawInRect:NSMakeRect(0, yPos -1, bounds.size.width - 5, 10) withAttributes:attributes];
         }
+    }
+    
+    // Draw highlighted line
+    if (highlightedLine > 0 && highlightedLine >= (int)self.lineNumberRange.location && highlightedLine < (int)(self.lineNumberRange.location + self.lineNumberRange.length))
+    {
+        int yPos = (int)((highlightedLine - self.lineNumberRange.location) * 13 - 16);
+        
+        NSPoint highlightPos = NSMakePoint(5, yPos);
+        
+        [imgStopmarker drawAtPoint:highlightPos fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
 }
 
@@ -211,6 +244,12 @@ Unless required by applicable law or agreed to in writing, software distributed 
     }
 }
 
+- (void) setHighlightedLine:(int)line
+{
+    highlightedLine = line;
+    [self setNeedsDisplay:YES];
+}
+
 - (void) pressedWarningBtn:(id) sender
 {
     int line = (int)[sender tag];
@@ -273,6 +312,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
     [imgBreakpoint0 release];
     [imgBreakpoint1 release];
     [imgBreakpoint2 release];
+    [imgStopmarker release];
     self.fileName = NULL;
     self.breakpointLines = NULL;
     self.syntaxErrors = NULL;

@@ -67,6 +67,7 @@
 		E3C185001717597200801FE5 /* editor-warning.png in Resources */ = {isa = PBXBuildFile; fileRef = E3C184FF1717597200801FE5 /* editor-warning.png */; };
 		E3C1850317175ED900801FE5 /* SMLErrorPopOver.h in Headers */ = {isa = PBXBuildFile; fileRef = E3C1850117175ED900801FE5 /* SMLErrorPopOver.h */; };
 		E3C1850417175ED900801FE5 /* SMLErrorPopOver.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C1850217175ED900801FE5 /* SMLErrorPopOver.m */; };
+		E3CB31141728B9B800A9B73F /* editor-stopmarker.png in Resources */ = {isa = PBXBuildFile; fileRef = E3CB31131728B9B800A9B73F /* editor-stopmarker.png */; };
 		E3CF4B7916E6927300C27B5C /* MGSBreakpointDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E3CF4B7816E6927300C27B5C /* MGSBreakpointDelegate.h */; };
 		E3D4B2771714D89700BB2CC6 /* SMLSyntaxError.h in Headers */ = {isa = PBXBuildFile; fileRef = E3D4B2751714D89700BB2CC6 /* SMLSyntaxError.h */; };
 		E3D4B2781714D89700BB2CC6 /* SMLSyntaxError.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D4B2761714D89700BB2CC6 /* SMLSyntaxError.m */; };
@@ -207,6 +208,7 @@
 		E3C184FF1717597200801FE5 /* editor-warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "editor-warning.png"; sourceTree = "<group>"; };
 		E3C1850117175ED900801FE5 /* SMLErrorPopOver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLErrorPopOver.h; sourceTree = "<group>"; };
 		E3C1850217175ED900801FE5 /* SMLErrorPopOver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLErrorPopOver.m; sourceTree = "<group>"; };
+		E3CB31131728B9B800A9B73F /* editor-stopmarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "editor-stopmarker.png"; sourceTree = "<group>"; };
 		E3CF4B7816E6927300C27B5C /* MGSBreakpointDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSBreakpointDelegate.h; sourceTree = "<group>"; };
 		E3D4B2751714D89700BB2CC6 /* SMLSyntaxError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLSyntaxError.h; sourceTree = "<group>"; };
 		E3D4B2761714D89700BB2CC6 /* SMLSyntaxError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLSyntaxError.m; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				E38654AC1717652000A345B9 /* ErrorPopoverView.xib */,
+				E3CB31131728B9B800A9B73F /* editor-stopmarker.png */,
 				E3C184FF1717597200801FE5 /* editor-warning.png */,
 				E3BBA50816E52FE600D89923 /* editor-breakpoint-0.png */,
 				E3BBA50916E52FE600D89923 /* editor-breakpoint-1.png */,
@@ -665,6 +668,7 @@
 				E3BBA50D16E52FE600D89923 /* editor-breakpoint-2.png in Resources */,
 				E3C185001717597200801FE5 /* editor-warning.png in Resources */,
 				E38654AD1717652000A345B9 /* ErrorPopoverView.xib in Resources */,
+				E3CB31141728B9B800A9B73F /* editor-stopmarker.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

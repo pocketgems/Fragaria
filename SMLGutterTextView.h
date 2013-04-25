@@ -24,6 +24,9 @@ Unless required by applicable law or agreed to in writing, software distributed 
 	NSImage* imgBreakpoint0;
 	NSImage* imgBreakpoint1;
 	NSImage* imgBreakpoint2;
+    NSImage* imgStopmarker;
+    
+    int highlightedLine;
 }
 
 @property (nonatomic,copy) NSString* fileName;
@@ -31,5 +34,5 @@ Unless required by applicable law or agreed to in writing, software distributed 
 @property (nonatomic,retain) NSArray* syntaxErrors;
 @property (nonatomic,assign) NSRange lineNumberRange;
 - (void) updateSyntaxErrors;
-
+- (void) setHighlightedLine:(int)line;
 @end
