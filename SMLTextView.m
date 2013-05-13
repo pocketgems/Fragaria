@@ -927,7 +927,8 @@ Unless required by applicable law or agreed to in writing, software distributed 
     
     for (NSString* completeWord in allCompletions)
     {
-        if ([completeWord rangeOfString:matchString options:NSCaseInsensitiveSearch range:NSMakeRange(0, [completeWord length])].location == 0)
+        if ([completeWord rangeOfString:matchString options:NSCaseInsensitiveSearch range:NSMakeRange(0, [completeWord length])].location == 0 &&
+            ![completeWord isEqualToString:matchString])
         {
             [matchArray addObject:completeWord];
         }
