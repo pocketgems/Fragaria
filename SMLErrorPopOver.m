@@ -35,9 +35,9 @@
     {
         NSTextField *textField;
         
-        NSFont* font = [NSFont fontWithName:@"Menlo" size:10];
+        NSFont* font = [NSFont systemFontOfSize:10];
         
-        int width = [self widthOfString:err withFont:font];
+        int width = [self widthOfString:err withFont:font] + 4;
         if (width > maxWidth) maxWidth = width;
         
         textField = [[[NSTextField alloc] initWithFrame:NSMakeRect(0, viewHeight - (kSMLErrorPopOverErrorSpacing * (errNo + 1)), 1024, kSMLErrorPopOverErrorSpacing)] autorelease];
